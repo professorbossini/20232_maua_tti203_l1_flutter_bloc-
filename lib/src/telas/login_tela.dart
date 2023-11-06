@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../blocs/bloc.dart';
 class LoginTela extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -24,22 +25,36 @@ class LoginTela extends StatelessWidget{
   }
 
   Widget emailField(){
-    return TextField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        hintText: 'seu@email.com',
-        labelText: 'Digite seu e-email'
-      ),
+    return StreamBuilder(
+      builder: (context, AsyncSnapshot<String> snapshot){
+        return TextField(
+          onChanged: (newValue) => bloc.changeEmail(newValue),
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            hintText: 'seu@email.com',
+            labelText: 'Digite seu e-email',
+            errorText: snapshot.hasError ? '${snapshot.error}' :  null
+          ),
+        );
+      },
+      stream: bloc.email,
     );
   }
 
   Widget passwordField(){
-    return TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-        hintText: 'Senha',
-        labelText: 'Senha'
-      ),
+    return StreamBuilder(
+      builder: (context, snapshot) {
+        return TextField(
+          onChanged: (newValue) => bloc.changePassword(newValue),
+          obscureText: true,
+          decoration: InputDecoration(
+            hintText: 'Senha',
+            labelText: 'Senha',
+            errorText: snapshot.hasError ? '${snapshot.error}' : null
+          ),
+        );
+      },
+      stream: bloc.password
     );
   }
 
