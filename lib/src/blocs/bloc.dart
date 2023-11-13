@@ -14,4 +14,4 @@ class Bloc with Validators{
   Function(String) get changePassword => _passwordController.sink.add;
   
 }
-final bloc = Bloc();
+// final bloc = Bloc();
